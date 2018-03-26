@@ -9,10 +9,4 @@ export default class Game {
   clear () {
     this.ctx.clearRect(0, 0, this.width, this.height)
   }
-
-  render (cb) {
-    this.ctx.beginPath()
-    cb(this.ctx)
-    this.ctx.closePath()
-  }
 }

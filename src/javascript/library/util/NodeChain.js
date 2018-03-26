@@ -25,6 +25,7 @@ export default class MinChain {
   
   insert (value) {
     let node = new Node(value)
+    this.size ++
     
     if (this.node === null) this.node = node 
     else {
@@ -51,7 +52,5 @@ export default class MinChain {
         current = current.right
       }
     }
-
-    this.size ++
   }
 }

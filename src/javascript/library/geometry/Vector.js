@@ -11,6 +11,10 @@ export default class Vector {
     return this.dimensions.length
   }
 
+  addFrom (v) {
+    if (v.size !== this.size) throw Error('Not the same dimensions')
+    this.map((a, i) => a + v.dimensions[i])
+  }
   subtract (v) {
     if (v.size !== this.size) throw Error('Not the same dimensions')
     let vector = new Vector()
@@ -60,8 +64,9 @@ export default class Vector {
   normalize () {
     let vector = this.copy
     const norm = vector.mag
+    vector.map((v, i) => v / norm)
 
-    return vector.map((v, i) => v / norm )
+    return vector
   }
   projection (v) {
     const numerator = this.dot(v)
@@ -69,5 +74,35 @@ export default class Vector {
 
     const c = numerator / denominator
     return this.multiply(c)
+  }
+
+  print () {
+    console.log(this.dimensions)
+  }
+  static scalerReflection (x, a, b, withPoint) {
+    // line segment defined by points(a, b)
+    let norm = b.subtract(a), point = x.subtract(a)
+    norm = norm.normalize()
+    
+
+    const proj = norm.projection(point)
+    let distance = proj.distance(point)
+    proj.addFrom(a)
+      
+    return {distance, point: proj}
+  }
+  /**
+   * @param {vector} x actual point
+   * @param {vector} a line start
+   * @param {vector} b line end
+   * 
+   * @returns If the vector x is in between a & b
+   */
+  static inBetween (x, a, b) {
+    let d1 = b.subtract(a)
+    let d2 = x.subtract(a)
+    let d3 = x.subtract(b)
+
+    return d2.dot(d1)>0 && d3.dot(d1)<0
   }
 }

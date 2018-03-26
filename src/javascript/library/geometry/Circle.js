@@ -1,12 +1,14 @@
-export default class Circle {
+import GameObject from '../game/GameObject'
+
+export default class Circle extends GameObject {
   constructor (x, y, r) {
-    this.x = x
-    this.y = y
+    super(x, y)
     this.r = r
   }
 
-  render (ctx) {
-    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2)
-    ctx.stroke()
+  render (ctx, color) {
+    this.renderShape(ctx, color, 
+      draw => draw.arc(this.x, this.y, this.r, 0, Math.PI * 2)
+    )
   }
 }

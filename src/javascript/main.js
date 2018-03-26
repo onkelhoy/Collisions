@@ -1,16 +1,17 @@
 import Game from './library/game/Game'
-import Event from './library/game/event'
+import Event from './library/game/Event'
 import Rectangle from './library/geometry/Rectangle'
 import Circle from './library/geometry/Circle'
 import Collision from './library/game/Collision'
 
 // initilize
-const game = null, player
 const walls = {
   left: null,
   bottom: null,
   right: null
 }
+let player, game
+
 
 function init () {
   game = new Game()
@@ -46,13 +47,26 @@ function update () {
 function render () {
   game.clear()
   let color = 'cornflowerblue'
+  let col = null 
   for (let w in walls) {
-    game.render(ctx => walls[w].render(ctx))
+    walls[w].render(game.ctx)
+    walls[w].renderCorners(game.ctx)
     
-    if (Collision.CircleBoxCollision(player, walls[w])) color = 'tomato'
+    let t = Collision.CircleBoxCollision(player, walls[w])
+    if (t) {
+      color = 'tomato'
+      col = t
+    }
   }
 
-  game.render(ctx => player.render(ctx, color))
+  if (col) {
+    game.ctx.beginPath()
+    game.ctx.arc(col.point.x, col.point.y, 6, 0, Math.PI * 2)
+    game.ctx.fillStyle = 'cornflowerblue'
+    game.ctx.fill()
+    game.ctx.closePath()
+  }
+  player.render(game.ctx, color)
 }
 
 // GAME HEART
