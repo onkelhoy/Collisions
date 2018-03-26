@@ -1,2 +1,3 @@
-# Image-Filtering
-quick simulation for image filtering
+# Intersection's
+
+quick simulation for testing collisions of different shapes
